@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+    }
+    body {
+        @apply bg-slate-50 text-ink font-sans antialiased;
+    }
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+    .animate-toast {
+        animation: toast-in 0.25s ease-out;
+    }
+
+    /* ── Text & background helpers ── */
+    .text-gradient-lime {
+        background: linear-gradient(100deg, #d9f99d 0%, #48d23c 55%, #22c55e 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .text-gradient-green {
+        background: linear-gradient(100deg, #15803d 0%, #22973a 45%, #65c42f 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: gradient-pan 6s ease-in-out infinite alternate;
+    }
+    .bg-dots-warm {
+        background-image: radial-gradient(rgba(154, 52, 18, 0.09) 1px, transparent 1px);
+        background-size: 22px 22px;
+    }
+    .bg-dots {
+        background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+        background-size: 22px 22px;
+    }
+    .text-outline {
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(34, 151, 58, 0.18);
+    }
+
+    /* ── One-shot entrance animations (delay with style="--d: 200ms") ── */
+    .anim-fade-up    { animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both; }
+    .anim-fade-in    { animation: fade-in 0.9s ease-out var(--d, 0ms) both; }
+    .anim-pop        { animation: pop-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 0ms) both; }
+    .anim-pizza-in   { animation: pizza-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both; }
+    .anim-line       { display: block; overflow: hidden; padding-bottom: 0.08em; }
+    .anim-line > span { display: inline-block; animation: line-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both; }
+    .anim-bump       { animation: bump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    /* backwards (not both): once finished it must not keep a transform, or fixed-position
+       children (bottom sheets, sticky bars) get trapped inside the page wrapper */
+    .page-enter      { animation: page-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+
+    /* ── Scroll reveals: MotionObserver adds .is-visible ──
+       One-shot keyframes (fill: backwards) so that once the reveal ends, the element's own
+       hover transforms/transitions work normally. Stagger with style="--rd: 120ms". */
+    .reveal, .reveal-left, .reveal-right, .reveal-zoom { opacity: 0; }
+    .reveal.is-visible, .reveal-left.is-visible, .reveal-right.is-visible, .reveal-zoom.is-visible { opacity: 1; }
+    .reveal.is-visible       { animation: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms) backwards; }
+    .reveal-left.is-visible  { animation: reveal-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms) backwards; }
+    .reveal-right.is-visible { animation: reveal-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms) backwards; }
+    .reveal-zoom.is-visible  { animation: reveal-zoom 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--rd, 0ms) backwards; }
+
+    /* ── Button shine sweep ── */
+    .btn-shine { position: relative; overflow: hidden; isolation: isolate; }
+    .btn-shine::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        transform: translateX(-120%) skewX(-20deg);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+        transition: transform 0.7s ease;
+        z-index: -1;
+    }
+    .btn-shine:hover::after { transform: translateX(120%) skewX(-20deg); }
+
+    /* Parallax layers (Landing hero) read --mx / --my in the range -1..1 */
+    .parallax {
+        transform: translate3d(calc(var(--mx, 0) * var(--depth, 12px)), calc(var(--my, 0) * var(--depth, 12px)), 0);
+        transition: transform 0.35s ease-out;
+    }
+
+    /* FAQ answer slides in when opened */
+    details[open] > .faq-answer { animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+}
+
+@keyframes toast-in {
+    from { transform: translateY(-16px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes reveal-up {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes reveal-left {
+    from { opacity: 0; transform: translateX(-56px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes reveal-right {
+    from { opacity: 0; transform: translateX(56px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes reveal-zoom {
+    from { opacity: 0; transform: scale(0.9) translateY(24px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.6) translateY(16px); }
+    100% { opacity: 1; transform: none; }
+}
+@keyframes pizza-in {
+    from { opacity: 0; transform: scale(0.7) rotate(-90deg); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes line-up {
+    from { transform: translateY(105%); }
+    to { transform: none; }
+}
+@keyframes bump {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.45); }
+    100% { transform: scale(1); }
+}
+@keyframes page-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+}
+@keyframes gradient-pan {
+    from { background-position: 0% center; }
+    to { background-position: 100% center; }
+}
+@keyframes scroll-cue {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(8px); opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal, .reveal-left, .reveal-right, .reveal-zoom { opacity: 1 !important; animation: none !important; }
+    .anim-fade-up, .anim-fade-in, .anim-pop, .anim-pizza-in, .anim-line > span, .page-enter, .anim-bump,
+    .animate-marquee, .animate-spin-slow, .animate-float, .animate-float-delayed, .text-gradient-green, .animate-sweep {
+        animation: none !important;
+    }
+    .parallax { transform: none !important; }
+}
