@@ -64,7 +64,7 @@ export default function Footer({ flush }) {
             <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-8 grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.1fr] text-sm">
                 <div>
                     <Link to="/" className="inline-flex items-center gap-3">
-                        <img src="/logo.png" alt="" className="w-12 h-12 rounded-2xl" />
+                        <img src="/logo-192.webp" alt="" className="w-12 h-12 rounded-2xl" />
                         <span>
                             <span className="block font-extrabold text-white tracking-wider text-lg">PIZZA VIRUS</span>
                             <span className="block text-xs text-slate-500">Hunger is a Deadly Virus</span>

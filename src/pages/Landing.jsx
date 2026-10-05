@@ -546,7 +546,7 @@ export default function Landing() {
                                 <div className="w-24 h-5 bg-black/80 rounded-b-2xl mx-auto" />
                                 <div className="px-4 pt-4">
                                     <div className="flex items-center gap-2">
-                                        <img src="/logo.png" alt="" className="w-9 h-9 rounded-xl" />
+                                        <img src="/logo-192.webp" alt="" className="w-9 h-9 rounded-xl" />
                                         <div>
                                             <p className="text-xs font-extrabold tracking-wider">PIZZA VIRUS</p>
                                             <p className="text-[9px] text-white/60">Hunger is a Deadly Virus</p>

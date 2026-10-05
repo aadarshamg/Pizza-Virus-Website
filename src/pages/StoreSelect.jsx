@@ -32,7 +32,7 @@ export default function StoreSelect() {
         <div className="min-h-screen bg-gradient-to-b from-brand to-green-700 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
                 <div className="text-center text-white mb-8 anim-fade-up">
-                    <img src="/logo.png" alt="Pizza Virus" className="w-20 h-20 rounded-3xl mx-auto shadow-xl mb-4" />
+                    <img src="/logo-192.webp" alt="Pizza Virus" className="w-20 h-20 rounded-3xl mx-auto shadow-xl mb-4" />
                     <h1 className="text-3xl font-extrabold">Choose Your Store</h1>
                     <p className="text-white/80 mt-1 font-medium">Select the location you'd like to order from</p>
                 </div>

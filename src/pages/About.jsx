@@ -15,7 +15,7 @@ export default function About() {
     return (
         <>
         <div className="max-w-xl mx-auto text-center">
-            <img src="/logo.png" alt="Pizza Virus" className="w-24 h-24 rounded-3xl mx-auto shadow-xl mt-4" />
+            <img src="/logo-192.webp" alt="Pizza Virus" className="w-24 h-24 rounded-3xl mx-auto shadow-xl mt-4" />
             <h1 className="text-3xl font-extrabold text-ink mt-4">Pizza Virus</h1>
             <p className="text-slate-500 font-semibold">Hunger is a Deadly Virus</p>
         </div>

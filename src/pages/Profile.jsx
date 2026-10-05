@@ -72,7 +72,7 @@ export default function Profile() {
         <div className="max-w-2xl mx-auto space-y-4">
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-green-700 text-white p-6 flex items-center gap-4">
                 <span className="absolute right-4 top-2 text-5xl opacity-30 rotate-12" aria-hidden>🍕</span>
-                <img src="/logo.png" alt="" className="w-16 h-16 rounded-2xl bg-white" />
+                <img src="/logo-192.webp" alt="" className="w-16 h-16 rounded-2xl bg-white" />
                 <div className="min-w-0">
                     <h1 className="text-2xl font-extrabold truncate">{user.user_metadata?.name || 'Pizza Lover'}</h1>
                     <p className="text-white/80 text-sm truncate">{user.email}</p>

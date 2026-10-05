@@ -77,7 +77,7 @@ function Header({ overlay }) {
             )}
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-2.5 shrink-0">
-                    <img src="/logo.png" alt="" className="w-10 h-10 rounded-xl object-cover bg-white" />
+                    <img src="/logo-192.webp" alt="" className="w-10 h-10 rounded-xl object-cover bg-white" />
                     <span className="leading-tight">
                         <span className="block font-extrabold tracking-wider text-lg">PIZZA VIRUS</span>
                         <span className={`hidden sm:block text-[11px] font-medium ${light ? 'text-slate-500' : 'text-white/75'}`}>Hunger is a Deadly Virus</span>
@@ -193,7 +193,14 @@ export default function Layout() {
             </main>
             <Footer flush={isLanding} />
             <WhatsAppButton raised={pathname.startsWith('/product/')} />
-            <BottomNav />
+            {/* Phones: the home page shows only an "Order Now" bar; the full nav lives on the other pages */}
+            {isLanding ? (
+                <div className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-200 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+                    <Link to="/order" className="btn-shine flex items-center justify-center gap-2 w-full bg-brand active:scale-[0.98] text-white font-extrabold text-base py-3.5 rounded-2xl shadow-lg shadow-green-600/30 transition">
+                        Order Now <ArrowRight size={18} />
+                    </Link>
+                </div>
+            ) : <BottomNav />}
         </div>
     );
 }
