@@ -47,7 +47,7 @@ export function HeroBold({ pizza, deliveryTime, startingPrice }) {
                 ))}
             </div>
 
-            <div className="relative flex-1 w-full max-w-6xl mx-auto px-4 pt-32 pb-24 lg:pt-32 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
+            <div className="relative flex-1 w-full max-w-6xl mx-auto px-4 pt-24 sm:pt-32 pb-24 lg:pt-32 grid lg:grid-cols-[1.1fr_1fr] gap-8 sm:gap-12 items-center">
                 <div>
                     <h1 className="font-display font-extrabold uppercase leading-[0.9] tracking-tight text-[3.1rem] sm:text-7xl lg:text-[4.9rem] xl:text-[5.4rem] [&_.anim-line]:whitespace-nowrap"
                         style={{ textShadow: '5px 5px 0 #0f5f24' }}>
@@ -55,10 +55,10 @@ export function HeroBold({ pizza, deliveryTime, startingPrice }) {
                         <span className="anim-line"><span className="text-[#FFE14D]" style={{ '--d': '280ms' }}>Deadly</span></span>
                         <span className="anim-line"><span style={{ '--d': '410ms' }}>Virus.</span></span>
                     </h1>
-                    <p className="anim-fade-up mt-7 text-lg md:text-xl text-white/85 max-w-md font-medium" style={{ '--d': '550ms' }}>
+                    <p className="anim-fade-up hidden sm:block mt-7 text-lg md:text-xl text-white/85 max-w-md font-medium" style={{ '--d': '550ms' }}>
                         Loaded, made-to-order pizzas that spread fast across Phagwara. Catch one in about {deliveryTime} minutes.
                     </p>
-                    <div className="anim-fade-up flex flex-wrap gap-4 mt-9" style={{ '--d': '680ms' }}>
+                    <div className="anim-fade-up hidden sm:flex flex-wrap gap-4 mt-9" style={{ '--d': '680ms' }}>
                         <Link to="/order" className="group inline-flex items-center gap-2 bg-[#FFE14D] text-[#0f3d1a] border-[3px] border-[#0f3d1a] font-extrabold text-lg px-7 py-3.5 rounded-2xl shadow-[5px_5px_0_#0f3d1a] hover:shadow-[2px_2px_0_#0f3d1a] hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
                             Order Now <ArrowRight size={20} className="transition group-hover:translate-x-1" />
                         </Link>
@@ -66,10 +66,10 @@ export function HeroBold({ pizza, deliveryTime, startingPrice }) {
                             See Menu
                         </Link>
                     </div>
-                    <div className="anim-fade-up flex flex-wrap gap-3 mt-10" style={{ '--d': '820ms' }}>
+                    <div className="anim-fade-up flex flex-wrap gap-3 mt-6 sm:mt-10" style={{ '--d': '820ms' }}>
                         <Sticker rotate="-4deg">⚡ {deliveryTime} min delivery</Sticker>
                         {startingPrice && <Sticker rotate="3deg">From ₹{startingPrice}</Sticker>}
-                        <Sticker rotate="-2deg">Veg &amp; Non-veg</Sticker>
+                        <Sticker rotate="-2deg" className="hidden sm:inline-flex">Veg &amp; Non-veg</Sticker>
                     </div>
                 </div>
 
