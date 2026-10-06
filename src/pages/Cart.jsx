@@ -211,14 +211,14 @@ export default function Cart() {
                                 {availableSides.map(a => {
                                     const picked = sides.find(s => s.id === a.id);
                                     return (
-                                        <div key={a.id} className="shrink-0 w-36 bg-slate-50 rounded-2xl p-2">
+                                        <div key={a.id} className="shrink-0 w-36 bg-white border-[3px] border-pv-ink rounded-2xl p-2">
                                             <ImageOrEmoji src={a.image_url} alt="" emoji="🥤" className="w-full h-24 rounded-xl" emojiSize="text-3xl" />
                                             <p className="text-sm font-bold text-ink truncate mt-2">{a.name}</p>
                                             <div className="flex items-center justify-between mt-1.5">
                                                 <span className="text-sm font-extrabold text-brand">+₹{a.price}</span>
                                                 {picked
                                                     ? <QtyStepper small value={picked.qty} onDec={() => updateSideQty(a.id, -1)} onInc={() => updateSideQty(a.id, 1)} />
-                                                    : <button onClick={() => addSide(a)} className="text-xs font-extrabold text-brand border-2 border-brand rounded-lg px-3 py-1 hover:bg-brand hover:text-white">ADD</button>}
+                                                    : <button onClick={() => addSide(a)} className="btn-yellow text-xs px-3 py-1 rounded-lg shadow-brut-sm">ADD</button>}
                                             </div>
                                         </div>
                                     );
@@ -228,14 +228,14 @@ export default function Cart() {
                     )}
 
                     {canRedeem && (
-                        <Card className="p-4 border-violet-200 bg-violet-50">
+                        <Card className="p-4 bg-violet-100">
                             <div className="flex items-center justify-between">
                                 <h2 className="font-extrabold text-violet-900">🍕 Free Pizza Reward</h2>
-                                <span className="text-xs font-extrabold bg-violet-600 text-white rounded-full px-2.5 py-1">{reward.required}/{reward.required} Slices</span>
+                                <span className="text-xs font-extrabold bg-pv-yellow text-pv-ink border-2 border-pv-ink rounded-full px-2.5 py-1">{reward.required}/{reward.required} Slices</span>
                             </div>
                             <p className="text-sm text-violet-800 mt-1">You have collected all {reward.required} slices! Redeem a free pizza worth ₹{reward.value} on this order.</p>
                             <button onClick={() => setRewardActive(v => !v)}
-                                className={`w-full mt-3 rounded-xl py-3 font-extrabold text-sm border-2 border-violet-600 ${rewardActive ? 'bg-violet-600 text-white' : 'text-violet-700 bg-white'}`}>
+                                className={`w-full mt-3 py-3 text-sm ${rewardActive ? "btn-green" : "btn-white"}`}>
                                 {rewardActive ? `✓ Free Pizza Applied −₹${reward.value}` : 'Redeem Free Pizza'}
                             </button>
                         </Card>
@@ -246,7 +246,7 @@ export default function Cart() {
                         <div className="flex gap-2 mt-3">
                             <input value={activeCoupon || couponInput} onChange={e => setCouponInput(e.target.value.toUpperCase())} disabled={!!activeCoupon}
                                 onKeyDown={e => e.key === 'Enter' && handleApplyCoupon()}
-                                placeholder="Enter coupon code" className="flex-1 min-w-0 bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold uppercase outline-none focus:border-brand-light" />
+                                placeholder="Enter coupon code" className="field-brut flex-1 min-w-0 px-4 py-2.5 text-sm font-bold uppercase" />
                             {activeCoupon
                                 ? <Button variant="danger" onClick={removeCoupon}>REMOVE</Button>
                                 : <Button variant="dark" loading={applyingCoupon} onClick={handleApplyCoupon}>APPLY</Button>}
@@ -278,7 +278,7 @@ export default function Cart() {
                             <p className="text-sm text-slate-500 mt-2">Add a delivery address to place your order.</p>
                         )}
                         {receiver?.name && (
-                            <div className="flex items-center gap-2 mt-3 text-xs bg-amber-50 text-amber-800 rounded-xl px-3 py-2 font-bold">
+                            <div className="flex items-center gap-2 mt-3 text-xs bg-pv-yellow text-pv-ink border-2 border-pv-ink rounded-xl px-3 py-2 font-bold">
                                 <UserRound size={14} /> Receiver: {receiver.name} ({receiver.phone})
                                 <button onClick={() => { remove(KEYS.receiver); setReceiver(null); }} className="ml-auto underline">Remove</button>
                             </div>
@@ -302,7 +302,7 @@ export default function Cart() {
                         <BillRow label="GST (5%)" value={`₹${bill.gst}`} />
                         {codFee > 0 && <BillRow label="COD Handling Fee" value={`₹${codFee}`} />}
                         {rewardDiscount > 0 && <BillRow label="🍕 Free Pizza Reward" value={`−₹${rewardDiscount}`} className="text-violet-600" />}
-                        <div className="border-t border-dashed border-slate-200 my-3" />
+                        <div className="border-t-2 border-dashed border-pv-ink/40 my-3" />
                         <div className="flex justify-between items-center">
                             <span className="font-extrabold text-ink text-lg">Total</span>
                             <span className="font-extrabold text-ink text-2xl">₹{bill.finalTotal}</span>
@@ -310,7 +310,7 @@ export default function Cart() {
                     </Card>
 
                     {minOrder > 0 && bill.effectiveSubtotal < minOrder && (
-                        <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-4 py-3 text-sm font-bold">
+                        <div className="bg-pv-yellow border-[3px] border-pv-ink text-pv-ink rounded-2xl px-4 py-3 text-sm font-bold">
                             ⚠ Add ₹{minOrder - bill.effectiveSubtotal} more · Min. order ₹{minOrder}
                         </div>
                     )}
@@ -323,7 +323,7 @@ export default function Cart() {
                             {!user ? 'Sign In to Place Order' : paymentMethod === 'cash' ? `Place Order • ₹${bill.finalTotal}` : `Pay ₹${bill.finalTotal}`}
                         </Button>
                     )}
-                    <p className="text-[11px] text-center text-slate-400">
+                    <p className="text-[0.6875rem] text-center text-slate-400">
                         By placing this order you agree to our <Link to="/legal/terms" className="underline">Terms</Link> and <Link to="/legal/refund" className="underline">Refund Policy</Link>.
                     </p>
                 </div>
@@ -356,14 +356,14 @@ export function ItemDetails({ item }) {
 
 function PayOption({ active, onClick, icon: Icon, title, sub }) {
     return (
-        <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-2xl border-2 px-4 py-3 mb-2 last:mb-0 text-left transition ${active ? 'border-brand-light bg-brand-50' : 'border-slate-200 hover:border-slate-300'}`}>
-            <Icon size={22} className={active ? 'text-brand' : 'text-slate-400'} />
+        <button onClick={onClick} className={`w-full flex items-center gap-3 rounded-2xl border-[3px] px-4 py-3 mb-3 last:mb-0 text-left transition-all ${active ? 'border-pv-ink bg-pv-yellow shadow-brut-sm' : 'border-pv-ink/25 bg-white hover:border-pv-ink'}`}>
+            <Icon size={22} className="text-pv-ink" />
             <span className="flex-1">
                 <span className="block font-extrabold text-sm text-ink">{title}</span>
                 <span className="block text-xs text-slate-500">{sub}</span>
             </span>
-            <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${active ? 'border-brand' : 'border-slate-300'}`}>
-                {active && <span className="w-2.5 h-2.5 rounded-full bg-brand" />}
+            <span className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${active ? 'border-pv-ink' : 'border-pv-ink/40'}`}>
+                {active && <span className="w-2.5 h-2.5 rounded-full bg-pv-ink" />}
             </span>
         </button>
     );

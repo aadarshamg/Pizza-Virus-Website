@@ -117,14 +117,14 @@ export default function Menu() {
     return (
         <>
             <div className="mb-4">
-                <h1 className="font-display text-3xl md:text-4xl font-extrabold text-ink tracking-tight">Our Menu</h1>
+                <h1 className="font-display text-4xl md:text-5xl font-extrabold text-pv-ink uppercase tracking-tight">Our Menu</h1>
                 <p className="text-sm text-slate-500 font-medium mt-0.5">Delivering from {selectedStore?.name}</p>
             </div>
 
             {/* Sticky search + filters (+ category chips on mobile) */}
-            <div className="sticky top-16 z-20 -mx-4 px-4 pt-3 pb-3 bg-slate-50 border-b border-slate-200/70 shadow-[0_8px_16px_-14px_rgba(15,23,42,0.25)]">
+            <div className="sticky top-16 z-20 -mx-4 px-4 pt-3 pb-3 bg-pv-cream border-b-[3px] border-pv-ink shadow-[0_8px_16px_-14px_rgba(15,23,42,0.25)]">
                 <div className="flex flex-wrap items-center gap-2.5">
-                    <label className="flex-1 min-w-[12rem] flex items-center gap-2 bg-white border-2 border-slate-200 focus-within:border-brand-light rounded-2xl px-4 transition">
+                    <label className="flex-1 min-w-[12rem] flex items-center gap-2 bg-white border-[3px] border-pv-ink focus-within:shadow-brut-sm rounded-2xl px-4 transition">
                         <Search size={18} className="text-slate-400 shrink-0" />
                         <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search pizzas, burgers, momos..."
                             aria-label="Search the menu" className="w-full bg-transparent py-2.5 text-sm font-medium outline-none placeholder:text-slate-400" />
@@ -134,7 +134,7 @@ export default function Menu() {
                     </label>
                     {DIETS.map(d => (
                         <button key={d.key} onClick={() => setDiet(v => (v === d.key ? null : d.key))} aria-pressed={diet === d.key}
-                            className={`flex items-center gap-2 px-3.5 py-2.5 rounded-2xl border-2 text-sm font-extrabold transition ${diet === d.key ? d.on : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'}`}>
+                            className={`flex items-center gap-2 px-3.5 py-2.5 rounded-2xl border-[3px] text-sm font-extrabold transition-all border-pv-ink ${diet === d.key ? 'bg-pv-yellow text-pv-ink shadow-none translate-x-[2px] translate-y-[2px]' : 'bg-white text-pv-ink shadow-brut-sm'}`}>
                             <span className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center ${d.key === 'veg' ? 'border-brand' : 'border-red-500'}`}>
                                 <span className={`w-1.5 h-1.5 rounded-full ${d.dot}`} />
                             </span>
@@ -149,7 +149,7 @@ export default function Menu() {
                     <div className="lg:hidden flex gap-2 overflow-x-auto no-scrollbar mt-3 -mx-4 px-4">
                         {sections.map(s => (
                             <button key={s.id} ref={el => { chipRefs.current[s.id] = el; }} onClick={() => jumpTo(s.id)}
-                                className={`shrink-0 px-4 py-2 rounded-full text-sm font-bold border transition ${s.id === activeId ? 'bg-ink text-white border-ink' : 'bg-white text-slate-600 border-slate-200'}`}>
+                                className={`shrink-0 px-4 py-2 rounded-full text-sm font-bold border transition border-2 border-pv-ink ${s.id === activeId ? 'bg-pv-yellow text-pv-ink' : 'bg-white text-pv-ink'}`}>
                                 {s.name}
                             </button>
                         ))}
@@ -166,7 +166,7 @@ export default function Menu() {
                     {/* Desktop sidebar */}
                     <aside className="hidden lg:block">
                         <nav className="sticky top-40 max-h-[calc(100vh-11rem)] overflow-y-auto no-scrollbar pr-2" aria-label="Menu categories">
-                            <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-400 mb-3 px-3">Categories</p>
+                            <p className="text-[0.6875rem] font-extrabold uppercase tracking-[0.18em] text-slate-400 mb-3 px-3">Categories</p>
                             <ul className="space-y-0.5">
                                 {categories.map(c => {
                                     const n = counts[c.id] || 0;
@@ -175,7 +175,7 @@ export default function Menu() {
                                         <li key={c.id}>
                                             <button onClick={() => n && jumpTo(c.id)} disabled={!n}
                                                 className={`relative w-full flex items-center justify-between gap-3 text-left pl-4 pr-3 py-2.5 rounded-xl text-sm transition
-                                                    ${active ? 'bg-brand-50 text-brand font-extrabold' : n ? 'text-slate-600 font-semibold hover:bg-white hover:text-ink' : 'text-slate-300 font-semibold cursor-default'}`}>
+                                                    ${active ? 'bg-pv-yellow text-pv-ink font-extrabold border-2 border-pv-ink' : n ? 'text-slate-600 font-semibold hover:bg-white hover:text-ink' : 'text-slate-300 font-semibold cursor-default'}`}>
                                                 <span className={`absolute left-0 top-2 bottom-2 w-1 rounded-full bg-brand transition-transform origin-center ${active ? 'scale-y-100' : 'scale-y-0'}`} />
                                                 <span className="truncate">{c.name}</span>
                                                 <span className={`text-xs tabular-nums ${active ? 'text-brand' : 'text-slate-400'}`}>{n}</span>
@@ -191,9 +191,9 @@ export default function Menu() {
                     <div>
                         {sections.map((s, si) => (
                             <section key={s.id} id={`cat-${s.id}`} className={`scroll-mt-48 lg:scroll-mt-40 ${si > 0 ? 'mt-10' : ''}`}>
-                                <div className="reveal flex items-center gap-3 pb-3 border-b-2 border-slate-200">
+                                <div className="reveal flex items-center gap-3 pb-3 border-b-[3px] border-pv-ink">
                                     {s.image_url && <img src={s.image_url} alt="" className="w-11 h-11 rounded-full object-cover ring-2 ring-white shadow" />}
-                                    <h2 className="font-display text-2xl font-extrabold text-ink tracking-tight">{s.name}</h2>
+                                    <h2 className="font-display text-2xl font-extrabold text-pv-ink uppercase tracking-tight">{s.name}</h2>
                                     <span className="text-sm font-bold text-slate-400">({s.items.length})</span>
                                 </div>
                                 <div className="divide-y divide-slate-200/80">

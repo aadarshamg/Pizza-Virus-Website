@@ -11,6 +11,7 @@ import { getLowestPrice } from '../utils/pricing';
 import { TRACK_STAGES } from '../utils/orderStatus';
 import ProductCard from '../components/ProductCard';
 import FounderStory from '../components/FounderStory';
+import { HeroBold } from '../components/heroes';
 
 // Public information landing page. No store / zone / login gate - everything here is
 // read-only and shown for the remembered store, or the first active store.
@@ -60,7 +61,7 @@ function SectionHead({ eyebrow, title, sub, dark = false, center = false }) {
     return (
         <div className={`reveal ${center ? 'max-w-4xl mx-auto text-center' : 'max-w-2xl'}`}>
             <Eyebrow dark={dark}>{eyebrow}</Eyebrow>
-            <h2 className={`font-display text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.05] mt-3 ${dark ? 'text-white' : 'text-ink'}`}>{title}</h2>
+            <h2 className={`font-display text-4xl md:text-5xl font-extrabold uppercase tracking-tight leading-[1] mt-3 ${dark ? 'text-white' : 'text-pv-ink'}`}>{title}</h2>
             {sub && <p className={`mt-4 text-lg ${dark ? 'text-white/70' : 'text-slate-500'}`}>{sub}</p>}
         </div>
     );
@@ -187,87 +188,8 @@ export default function Landing() {
 
     return (
         <div className="overflow-x-hidden">
-            {/* ───────────── HERO (full screen) ───────────── */}
-            <section ref={heroRef} onMouseMove={onHeroMove} onMouseLeave={onHeroLeave}
-                className="relative bg-[#FFF8EE] text-ink overflow-hidden min-h-[100svh] flex flex-col">
-                <div className="absolute inset-0 bg-dots-warm anim-fade-in" aria-hidden />
-                <div className="parallax absolute -top-32 right-[-8%] w-[44rem] h-[44rem] rounded-full bg-orange-300/45 blur-[130px]" style={{ '--depth': '-30px' }} aria-hidden />
-                <div className="parallax absolute top-1/3 right-[18%] w-[22rem] h-[22rem] rounded-full bg-amber-200/70 blur-[90px]" style={{ '--depth': '22px' }} aria-hidden />
-                <div className="absolute bottom-[-35%] left-[-12%] w-[34rem] h-[34rem] rounded-full bg-green-200/50 blur-[120px]" aria-hidden />
-
-                <div className="relative flex-1 w-full max-w-6xl mx-auto px-4 pt-36 pb-10 lg:pt-28 grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-6 items-center">
-                    <div>
-                        <h1 className="font-display font-extrabold tracking-tight leading-[0.95] text-[3.4rem] sm:text-7xl lg:text-[5.2rem] xl:text-[5.8rem]">
-                            <span className="anim-line"><span style={{ '--d': '200ms' }}>Hunger is a</span></span>
-                            <span className="anim-line whitespace-nowrap"><span style={{ '--d': '340ms' }}><span className="text-gradient-green">Deadly</span> Virus.</span></span>
-                        </h1>
-                        <p className="anim-fade-up mt-6 text-lg md:text-xl text-slate-600 max-w-lg leading-relaxed" style={{ '--d': '520ms' }}>
-                            Hot, loaded, made-to-order pizzas, built your way and delivered across Phagwara in about {deliveryTime} minutes.
-                        </p>
-                        <div className="anim-fade-up flex flex-wrap gap-3 mt-9" style={{ '--d': '650ms' }}>
-                            <Link to="/order" className="btn-shine group inline-flex items-center gap-2 bg-brand hover:bg-brand-cta text-white font-extrabold px-7 py-4 rounded-2xl shadow-[0_14px_36px_-10px_rgba(34,151,58,0.7)] hover:shadow-[0_18px_44px_-10px_rgba(34,151,58,0.85)] hover:-translate-y-0.5 transition active:scale-[0.97]">
-                                Order Now <ArrowRight size={20} className="transition group-hover:translate-x-1" />
-                            </Link>
-                            <Link to="/menu" className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-slate-300 hover:shadow-lg hover:-translate-y-0.5 text-ink font-extrabold px-7 py-4 rounded-2xl transition active:scale-[0.97]">
-                                Explore Menu
-                            </Link>
-                        </div>
-                        <div className="anim-fade-up flex flex-wrap items-center gap-x-6 gap-y-3 mt-10 text-sm text-slate-600 font-semibold" style={{ '--d': '780ms' }}>
-                            <span className="flex items-center gap-2"><Zap size={16} className="text-orange-500" /> ~{deliveryTime} min delivery</span>
-                            <span className="flex items-center gap-2"><MapPin size={16} className="text-orange-500" /> Phagwara · Law Gate</span>
-                            <span className="flex items-center gap-2"><Leaf size={16} className="text-brand" /> Veg &amp; Non-veg</span>
-                        </div>
-                    </div>
-
-                    {/* Rotating pizza with floating cards, layered for mouse parallax */}
-                    <div className="relative mx-auto w-full max-w-[min(38rem,72svh)] aspect-square lg:-mr-8">
-                        <div className="parallax absolute inset-[3%]" style={{ '--depth': '8px' }} aria-hidden>
-                            <div className="anim-fade-in w-full h-full rounded-full border-2 border-dashed border-orange-300/60 animate-spin-slow" style={{ '--d': '300ms' }} />
-                        </div>
-                        <div className="parallax absolute inset-[8%]" style={{ '--depth': '12px' }} aria-hidden>
-                            <div className="anim-pop w-full h-full rounded-full bg-gradient-to-br from-orange-200 to-amber-100" style={{ '--d': '250ms' }} />
-                        </div>
-                        <div className="parallax absolute inset-[10.5%]" style={{ '--depth': '18px' }}>
-                            <div className="anim-pizza-in w-full h-full" style={{ '--d': '120ms' }}>
-                                {/* Bundled + preloaded (index.html) so it shows instantly instead of
-                                    waiting for the menu query and a full-size storage download. */}
-                                <img src="/hero-pizza.webp" alt="Paneer and corn pizza" width="720" height="720"
-                                    fetchpriority="high" decoding="async"
-                                    className="w-full h-full rounded-full object-cover bg-orange-100 shadow-[0_35px_70px_-15px_rgba(154,52,18,0.55)] animate-spin-slow" />
-                            </div>
-                        </div>
-
-                        <Floating className="top-[6%] -left-2 sm:left-[-4%]" depth="-26px" delay="900ms">
-                            <FloatCard className="animate-float" icon={<Zap size={18} className="text-white" />} iconBg="bg-brand" title={`${deliveryTime} min`} sub="Fast delivery" />
-                        </Floating>
-                        <Floating className="bottom-[12%] -right-2 sm:right-[-6%]" depth="-34px" delay="1050ms">
-                            <FloatCard className="animate-float-delayed" icon={<PizzaSlice className="w-6 h-6" />} iconBg="bg-orange-50" title={`${reward.required} slices`} sub="= 1 free pizza" />
-                        </Floating>
-                        {products.length > 0 && (
-                            <Floating className="bottom-[0%] left-[4%] hidden sm:block" depth="-20px" delay="1200ms">
-                                <FloatCard className="animate-float" icon={<Star size={18} className="text-amber-500" fill="currentColor" />} iconBg="bg-amber-50" title={`${products.length}+ items`} sub="On the menu" />
-                            </Floating>
-                        )}
-                        {heroPizza && (
-                            <Floating className="top-[2%] right-[4%] hidden sm:block" depth="-40px" delay="1350ms">
-                                <div className="bg-ink text-white rounded-2xl px-4 py-2.5 shadow-xl rotate-6">
-                                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">Starting at</p>
-                                    <p className="font-display text-2xl font-extrabold">₹{startingPrice ?? getLowestPrice(heroPizza)}</p>
-                                </div>
-                            </Floating>
-                        )}
-                    </div>
-                </div>
-
-                {/* Scroll cue */}
-                <a href="#how" className="anim-fade-in relative hidden lg:flex flex-col items-center gap-2 mx-auto mb-8 text-xs font-bold text-slate-500 hover:text-brand"
-                    style={{ '--d': '1500ms' }} aria-label="Scroll down">
-                    <span className="w-6 h-10 rounded-full border-2 border-current flex justify-center pt-2">
-                        <span className="w-1 h-2 rounded-full bg-current" style={{ animation: 'scroll-cue 1.6s ease-in-out infinite' }} />
-                    </span>
-                    Scroll
-                </a>
-            </section>
+            {/* ───────────── HERO (Bold mascot) ───────────── */}
+            <HeroBold pizza={heroPizza} deliveryTime={deliveryTime} startingPrice={startingPrice} />
 
             {/* ───────────── CATEGORY STRIP (below the hero) ───────────── */}
             {marqueeCats.length > 0 && (
@@ -304,7 +226,7 @@ export default function Landing() {
             </section>
 
             {/* ───────────── HOW IT WORKS ───────────── */}
-            <section id="how" className="bg-slate-50 py-20 md:py-28">
+            <section id="how" className="bg-pv-cream py-20 md:py-28">
                 <div className="max-w-6xl mx-auto px-4">
                     <SectionHead center eyebrow="How it works" title="Craving to doorstep in 3 steps" />
                     <div className="grid md:grid-cols-3 gap-6 mt-14">
@@ -313,10 +235,10 @@ export default function Landing() {
                             { icon: SlidersHorizontal, title: 'Build your pizza', text: 'Pick the size, crust, cheese, toppings and dips. Every pizza is made to order.' },
                             { icon: Bike, title: 'Track it live', text: 'Pay online or cash on delivery, then follow your order until it reaches your door.' },
                         ].map((s, i) => (
-                            <div key={s.title} className="reveal group relative bg-white rounded-3xl p-8 pt-10 border border-slate-100 shadow-card overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition duration-300"
+                            <div key={s.title} className="reveal group relative bg-white rounded-3xl p-8 pt-10 border-[3px] border-pv-ink shadow-card overflow-hidden hover:-translate-y-1 hover:shadow-brut-lg transition duration-300"
                                 style={{ '--rd': `${i * 90}ms` }}>
                                 <span className="font-display text-outline absolute -top-4 right-3 text-[8.5rem] font-extrabold leading-none select-none" aria-hidden>0{i + 1}</span>
-                                <span className="relative w-14 h-14 rounded-2xl bg-brand text-white flex items-center justify-center shadow-lg shadow-green-600/30 transition duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
+                                <span className="relative w-14 h-14 rounded-2xl icon-brut shadow-brut-sm transition duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
                                     <s.icon size={26} />
                                 </span>
                                 <h3 className="relative font-display text-2xl font-extrabold text-ink mt-6">{s.title}</h3>
@@ -329,7 +251,7 @@ export default function Landing() {
 
             {/* ───────────── MENU PREVIEW ───────────── */}
             {menuTabs.length > 0 && (
-                <section id="menu" className="bg-white py-20 md:py-28">
+                <section id="menu" className="bg-white border-y-[3px] border-pv-ink py-20 md:py-28">
                     <div className="max-w-6xl mx-auto px-4">
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <SectionHead eyebrow="Our menu" title="Fresh out of the oven" sub="A taste of what's cooking today. Tap any item to customise it." />
@@ -340,7 +262,7 @@ export default function Landing() {
                         <div className="reveal flex gap-2 overflow-x-auto no-scrollbar mt-10 pb-1" role="tablist">
                             {menuTabs.map(t => (
                                 <button key={t.id} role="tab" aria-selected={t.id === currentTab.id} onClick={() => setActiveTab(t.id)}
-                                    className={`shrink-0 px-5 py-2.5 rounded-full text-sm font-extrabold transition ${t.id === currentTab.id ? 'bg-ink text-white shadow-lg' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
+                                    className={`chip-brut shrink-0 px-5 py-2.5 text-sm ${t.id === currentTab.id ? 'chip-on' : ''}`}>
                                     {t.name}
                                 </button>
                             ))}
@@ -353,12 +275,12 @@ export default function Landing() {
             )}
 
             {/* ───────────── WHY US - BENTO ───────────── */}
-            <section id="why" className="bg-slate-50 py-20 md:py-28">
+            <section id="why" className="bg-pv-cream py-20 md:py-28">
                 <div className="max-w-6xl mx-auto px-4">
                     <SectionHead eyebrow="Why Pizza Virus" title="Made the way you want it." sub="No one-size-fits-all pizzas here. Everything is built to your order." />
                     <div className="grid md:grid-cols-3 md:grid-rows-2 gap-5 mt-12 md:h-[34rem]">
                         {/* Big photo tile */}
-                        <div className="reveal-left relative md:col-span-2 md:row-span-1 min-h-[16rem] rounded-3xl overflow-hidden group bg-[#06210f]">
+                        <div className="reveal-left relative md:col-span-2 md:row-span-1 min-h-[16rem] rounded-3xl overflow-hidden group bg-[#06210f] border-[3px] border-pv-ink shadow-brut">
                             {bentoPizza && <img src={bentoPizza.image_url} alt="" className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition duration-700" />}
                             <div className="absolute inset-0 bg-gradient-to-r from-[#06210f] via-[#06210f]/70 to-transparent" />
                             <div className="relative h-full p-8 flex flex-col justify-end text-white max-w-sm">
@@ -368,7 +290,7 @@ export default function Landing() {
                             </div>
                         </div>
                         {/* Tall tracking tile */}
-                        <div className="reveal-right md:row-span-2 rounded-3xl bg-brand text-white p-8 flex flex-col relative overflow-hidden" style={{ '--rd': '80ms' }}>
+                        <div className="reveal-right md:row-span-2 rounded-3xl bg-brand text-white p-8 flex flex-col relative overflow-hidden border-[3px] border-pv-ink shadow-brut" style={{ '--rd': '80ms' }}>
                             <div className="absolute -right-16 -bottom-16 w-56 h-56 rounded-full bg-white/10" aria-hidden />
                             <Bike className="text-lime-200" />
                             <h3 className="font-display text-3xl font-extrabold mt-3">Live order tracking</h3>
@@ -380,7 +302,7 @@ export default function Landing() {
                                             {i < 2 ? <Check size={16} strokeWidth={3} /> : i + 1}
                                         </span>
                                         <span className={`font-bold ${i < 3 ? '' : 'text-white/60'}`}>{s.label}</span>
-                                        {i === 2 && <span className="ml-auto text-[10px] font-extrabold bg-lime-300 text-[#06210f] rounded-full px-2 py-0.5 animate-pulse">LIVE</span>}
+                                        {i === 2 && <span className="ml-auto text-[0.625rem] font-extrabold bg-lime-300 text-[#06210f] rounded-full px-2 py-0.5 animate-pulse">LIVE</span>}
                                     </div>
                                 ))}
                             </div>
@@ -392,8 +314,8 @@ export default function Landing() {
                                 { icon: Leaf, title: 'Veg & non-veg', text: 'Clearly marked, always.', tone: 'bg-green-50 text-green-600' },
                                 { icon: Wallet, title: 'Pay your way', text: 'UPI, cards, or cash on delivery.', tone: 'bg-sky-50 text-sky-600' },
                             ].map(t => (
-                                <div key={t.title} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-card hover:-translate-y-1 hover:shadow-xl transition duration-300">
-                                    <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${t.tone}`}><t.icon size={22} /></span>
+                                <div key={t.title} className="bg-white rounded-3xl p-6 border-[3px] border-pv-ink shadow-card hover:-translate-y-1 hover:shadow-brut-lg transition duration-300">
+                                    <span className={`w-11 h-11 rounded-xl icon-brut`}><t.icon size={22} /></span>
                                     <h3 className="font-display text-lg font-extrabold text-ink mt-4 leading-tight">{t.title}</h3>
                                     <p className="text-sm text-slate-500 mt-1">{t.text}</p>
                                 </div>
@@ -415,15 +337,15 @@ export default function Landing() {
                             <SectionHead dark eyebrow="Pizza Rewards" title={<>Collect {reward.required} slices.<br />Eat one pizza free.</>}
                                 sub={`Every eligible order earns you a slice. Fill the box and redeem a free pizza worth ₹${reward.value} at checkout.`} />
                             <div className="reveal flex flex-wrap gap-3 mt-8">
-                                <Link to="/signup" className="inline-flex items-center gap-2 bg-white text-violet-700 font-extrabold px-6 py-3.5 rounded-2xl hover:bg-violet-50 transition active:scale-[0.98]">
+                                <Link to="/signup" className="btn-yellow px-6 py-3.5">
                                     <Gift size={18} /> Start collecting
                                 </Link>
-                                <Link to="/order" className="inline-flex items-center gap-2 border border-white/30 font-extrabold px-6 py-3.5 rounded-2xl hover:bg-white/10 transition">
+                                <Link to="/order" className="btn-white px-6 py-3.5">
                                     Order now
                                 </Link>
                             </div>
                         </div>
-                        <div className="reveal-zoom relative bg-white/10 border border-white/20 backdrop-blur rounded-[2rem] p-8 md:p-10" style={{ '--rd': '120ms' }}>
+                        <div className="reveal-zoom relative bg-white/10 border-[3px] border-pv-ink shadow-brut-lg rounded-[2rem] p-8 md:p-10" style={{ '--rd': '120ms' }}>
                             <p className="font-extrabold">
                                 Your slice box <span className="ml-2 text-sm font-bold text-white/60"><CountUp value={reward.required} start={rewardInView} />/{reward.required} collected</span>
                             </p>
@@ -450,7 +372,7 @@ export default function Landing() {
 
             {/* ───────────── OFFERS ───────────── */}
             {offers.length > 0 && (
-                <section id="offers" className="bg-white py-20 md:py-28">
+                <section id="offers" className="bg-white border-y-[3px] border-pv-ink py-20 md:py-28">
                     <div className="max-w-6xl mx-auto px-4">
                         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                             <SectionHead eyebrow="Deals" title="Today's offers" sub="Copy a code and apply it in your cart." />
@@ -469,7 +391,7 @@ export default function Landing() {
                                     <div className="border-t-2 border-dashed border-white/40 my-5" />
                                     <div className="flex items-center justify-between gap-3">
                                         <span className="font-extrabold tracking-[0.2em] text-lg">{o.code}</span>
-                                        <button onClick={() => copy(o.code)} className="flex items-center gap-1.5 bg-white text-rose-600 text-xs font-extrabold rounded-xl px-3 py-2 active:scale-95 transition">
+                                        <button onClick={() => copy(o.code)} className="btn-white text-xs px-3 py-2 rounded-xl shadow-brut-sm">
                                             {copied === o.code ? <Check size={14} /> : <Copy size={14} />}{copied === o.code ? 'Copied' : 'Copy'}
                                         </button>
                                     </div>
@@ -477,14 +399,14 @@ export default function Landing() {
                             ))}
                             {/* Fill the row when there are few coupons */}
                             {offers.length < 3 && (
-                                <div className={`reveal-zoom rounded-3xl bg-ink text-white p-7 flex flex-col justify-between gap-6 relative overflow-hidden ${offers.length === 1 ? 'lg:col-span-2' : ''}`}
+                                <div className={`reveal-zoom rounded-3xl bg-pv-ink text-white p-7 border-[3px] border-pv-ink shadow-brut flex flex-col justify-between gap-6 relative overflow-hidden ${offers.length === 1 ? 'lg:col-span-2' : ''}`}
                                     style={{ '--rd': '120ms' }}>
                                     <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-brand/40 blur-2xl" aria-hidden />
                                     <div className="relative">
                                         <p className="font-display text-3xl font-extrabold">Want more than a discount?</p>
                                         <p className="text-white/70 mt-2 max-w-md">Every order also fills your slice box. Collect {reward.required} and your next pizza is on us.</p>
                                     </div>
-                                    <Link to="/signup" className="relative group self-start inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#06210f] font-extrabold px-5 py-3 rounded-2xl transition">
+                                    <Link to="/signup" className="relative group self-start inline-flex items-center gap-2 bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px] font-extrabold px-5 py-3 rounded-2xl transition">
                                         Join Pizza Rewards <ArrowRight size={16} className="transition group-hover:translate-x-1" />
                                     </Link>
                                 </div>
@@ -496,7 +418,7 @@ export default function Landing() {
 
             {/* ───────────── STORES ───────────── */}
             {stores.length > 0 && (
-                <section id="stores" className="bg-slate-50 py-20 md:py-28">
+                <section id="stores" className="bg-pv-cream py-20 md:py-28">
                     <div className="max-w-6xl mx-auto px-4">
                         <SectionHead eyebrow="Find us" title={stores.length > 1 ? 'Our kitchens' : 'Our kitchen'} sub="Freshly made, right around the corner." />
                         {stores.length === 1 ? (
@@ -504,7 +426,7 @@ export default function Landing() {
                         ) : (
                         <div className="grid md:grid-cols-2 gap-5 mt-10">
                             {stores.map((s, i) => (
-                                <div key={s.id} className="reveal bg-white rounded-3xl border border-slate-100 shadow-card p-7 flex flex-col sm:flex-row gap-6 sm:items-center hover:shadow-xl transition duration-300"
+                                <div key={s.id} className="reveal bg-white rounded-3xl border-[3px] border-pv-ink shadow-card p-7 flex flex-col sm:flex-row gap-6 sm:items-center hover:shadow-brut-lg transition duration-300"
                                     style={{ '--rd': `${i * 90}ms` }}>
                                     <span className="w-16 h-16 rounded-2xl bg-brand text-white flex items-center justify-center shrink-0 shadow-lg shadow-green-600/30"><MapPin size={28} /></span>
                                     <div className="flex-1 min-w-0">
@@ -514,7 +436,7 @@ export default function Landing() {
                                             <a href={`tel:${s.phone}`} className="inline-flex items-center gap-1.5 text-sm font-bold text-brand mt-2"><Phone size={14} /> {s.phone}</a>
                                         )}
                                     </div>
-                                    <button onClick={() => orderFrom(s)} className="group inline-flex items-center justify-center gap-2 bg-ink hover:bg-slate-800 text-white font-extrabold px-5 py-3 rounded-2xl shrink-0 transition active:scale-[0.98]">
+                                    <button onClick={() => orderFrom(s)} className="group btn-yellow px-5 py-3 shrink-0">
                                         Order here <ArrowRight size={16} className="transition group-hover:translate-x-1" />
                                     </button>
                                 </div>
@@ -526,7 +448,7 @@ export default function Landing() {
             )}
 
             {/* ───────────── APP ───────────── */}
-            <section id="app" className="bg-white py-20 md:py-28">
+            <section id="app" className="bg-white border-y-[3px] border-pv-ink py-20 md:py-28">
                 <div className="max-w-6xl mx-auto px-4">
                     <div className="relative rounded-[2.5rem] bg-gradient-to-br from-brand to-green-800 text-white overflow-hidden px-8 md:px-16 pt-14 md:pt-16 grid md:grid-cols-2 gap-10 items-end">
                         <div className="absolute inset-0 bg-dots" aria-hidden />
@@ -542,14 +464,14 @@ export default function Landing() {
                         </div>
                         {/* Phone mockup */}
                         <div className="relative flex justify-center reveal-right" style={{ '--rd': '120ms' }}>
-                            <div className="w-64 h-[25rem] bg-[#06210f] rounded-t-[2.75rem] border-[10px] border-b-0 border-black/80 shadow-2xl overflow-hidden">
+                            <div className="w-64 h-[25rem] bg-[#06210f] rounded-t-[2.75rem] border-[0.625rem] border-b-0 border-black/80 shadow-2xl overflow-hidden">
                                 <div className="w-24 h-5 bg-black/80 rounded-b-2xl mx-auto" />
                                 <div className="px-4 pt-4">
                                     <div className="flex items-center gap-2">
-                                        <img src="/logo-192.webp" alt="" className="w-9 h-9 rounded-xl" />
+                                        <img src="/logo-192.webp" alt="" className="object-contain w-9 h-9 rounded-xl" />
                                         <div>
                                             <p className="text-xs font-extrabold tracking-wider">PIZZA VIRUS</p>
-                                            <p className="text-[9px] text-white/60">Hunger is a Deadly Virus</p>
+                                            <p className="text-[0.5625rem] text-white/60">Hunger is a Deadly Virus</p>
                                         </div>
                                     </div>
                                     {heroPizza && <img src={heroPizza.image_url} alt="" className="mt-4 w-full h-28 rounded-2xl object-cover" />}
@@ -557,7 +479,7 @@ export default function Landing() {
                                         {products.filter(p => p.image_url).slice(1, 5).map(p => (
                                             <div key={p.id} className="bg-white/10 rounded-xl p-1.5">
                                                 <img src={p.image_url} alt="" className="w-full h-14 rounded-lg object-cover" />
-                                                <p className="text-[9px] font-bold mt-1 truncate">{p.name}</p>
+                                                <p className="text-[0.5625rem] font-bold mt-1 truncate">{p.name}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -572,15 +494,15 @@ export default function Landing() {
             </section>
 
             {/* ───────────── FAQ ───────────── */}
-            <section id="faq" className="bg-slate-50 py-20 md:py-28">
+            <section id="faq" className="bg-pv-cream py-20 md:py-28">
                 <div className="max-w-3xl mx-auto px-4">
                     <SectionHead center eyebrow="FAQ" title="Questions? Answered." />
                     <div className="mt-10 space-y-3">
                         {FAQS.map(([q, a], i) => (
-                            <details key={q} className="reveal group bg-white rounded-2xl border border-slate-100 shadow-card open:shadow-xl transition" style={{ '--rd': `${i * 60}ms` }}>
+                            <details key={q} className="reveal group bg-white rounded-2xl border-[3px] border-pv-ink shadow-brut-sm open:shadow-brut transition-all" style={{ '--rd': `${i * 60}ms` }}>
                                 <summary className="flex items-center justify-between gap-4 cursor-pointer list-none p-5 md:p-6 font-extrabold text-ink [&::-webkit-details-marker]:hidden">
                                     {q}
-                                    <span className="w-8 h-8 rounded-full bg-slate-100 group-open:bg-brand group-open:text-white flex items-center justify-center shrink-0 transition">
+                                    <span className="w-8 h-8 rounded-full border-2 border-pv-ink bg-white group-open:bg-pv-yellow flex items-center justify-center shrink-0 transition">
                                         <ChevronDown size={18} className="transition group-open:rotate-180" />
                                     </span>
                                 </summary>
@@ -606,7 +528,7 @@ export default function Landing() {
                         <h2 className="font-display text-5xl md:text-7xl font-extrabold tracking-tight leading-[0.95]">
                             Hungry?<br /><span className="text-gradient-green">Your pizza</span> is {deliveryTime} min away.
                         </h2>
-                        <Link to="/order" className="group mt-10 inline-flex items-center gap-2 bg-brand hover:bg-brand-cta text-white font-extrabold text-lg px-8 py-4 rounded-2xl shadow-[0_14px_36px_-10px_rgba(34,151,58,0.7)] transition active:scale-[0.98]">
+                        <Link to="/order" className="group mt-10 inline-flex items-center gap-2 bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px] font-extrabold text-lg px-8 py-4 rounded-2xl transition active:scale-[0.98]">
                             Order Now <ArrowRight size={22} className="transition group-hover:translate-x-1" />
                         </Link>
                     </div>
@@ -714,9 +636,9 @@ function SingleStore({ store, hours, deliveryTime, onOrder }) {
     const bbox = `${lng - 0.012},${lat - 0.007},${lng + 0.012},${lat + 0.007}`;
     return (
         <div className="grid lg:grid-cols-[1fr_1.35fr] gap-5 mt-10">
-            <div className="reveal-left bg-ink text-white rounded-3xl p-8 md:p-10 flex flex-col relative overflow-hidden">
+            <div className="reveal-left bg-pv-ink text-white rounded-3xl p-8 md:p-10 border-[3px] border-pv-ink shadow-brut flex flex-col relative overflow-hidden">
                 <div className="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-brand/40 blur-3xl" aria-hidden />
-                <span className="relative w-14 h-14 rounded-2xl bg-brand flex items-center justify-center shadow-lg shadow-green-600/40"><MapPin size={26} /></span>
+                <span className="relative w-14 h-14 rounded-2xl icon-brut"><MapPin size={26} /></span>
                 <h3 className="relative font-display text-4xl font-extrabold mt-6">{store.name}</h3>
                 {store.address_text && <p className="relative text-white/70 mt-2">{store.address_text}, Phagwara, Punjab</p>}
                 <dl className="relative grid grid-cols-2 gap-4 mt-8">
@@ -730,10 +652,10 @@ function SingleStore({ store, hours, deliveryTime, onOrder }) {
                     </div>
                 </dl>
                 <div className="relative flex flex-wrap gap-3 mt-8 lg:mt-auto lg:pt-8">
-                    <button onClick={onOrder} className="group inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-[#06210f] font-extrabold px-6 py-3.5 rounded-2xl transition active:scale-[0.98]">
+                    <button onClick={onOrder} className="group inline-flex items-center gap-2 bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px] font-extrabold px-6 py-3.5 rounded-2xl transition active:scale-[0.98]">
                         Order from {store.name} <ArrowRight size={18} className="transition group-hover:translate-x-1" />
                     </button>
-                    <a href={`tel:${store.phone || '+917087041010'}`} className="inline-flex items-center gap-2 border border-white/20 hover:bg-white/10 font-extrabold px-5 py-3.5 rounded-2xl transition">
+                    <a href={`tel:${store.phone || '+917087041010'}`} className="btn-white px-5 py-3.5">
                         <Phone size={16} /> Call us
                     </a>
                 </div>
@@ -780,10 +702,10 @@ function FloatCard({ className, icon, iconBg, title, sub }) {
 
 function StoreBadge({ href, top, label }) {
     return (
-        <a href={href} className="inline-flex items-center gap-3 bg-black hover:bg-black/80 text-white rounded-2xl pl-4 pr-5 py-2.5 border border-white/15 transition active:scale-[0.98]">
+        <a href={href} className="inline-flex items-center gap-3 bg-pv-ink text-white rounded-2xl pl-4 pr-5 py-2.5 border-[3px] border-pv-ink shadow-[5px_5px_0_#FFE14D] hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all">
             <Smartphone size={22} />
             <span className="leading-tight text-left">
-                <span className="block text-[10px] font-semibold text-white/70">{top}</span>
+                <span className="block text-[0.625rem] font-semibold text-white/70">{top}</span>
                 <span className="block font-extrabold">{label}</span>
             </span>
         </a>

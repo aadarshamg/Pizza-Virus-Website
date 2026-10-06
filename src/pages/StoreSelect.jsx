@@ -29,18 +29,18 @@ export default function StoreSelect() {
     if (loading || stores.length === 1) return <FullPageSpinner />;
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-brand to-green-700 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-brand flex items-center justify-center p-4">
             <div className="w-full max-w-md">
                 <div className="text-center text-white mb-8 anim-fade-up">
-                    <img src="/logo-192.webp" alt="Pizza Virus" className="w-20 h-20 rounded-3xl mx-auto shadow-xl mb-4" />
+                    <img src="/logo-192.webp" alt="Pizza Virus" className="object-contain w-20 h-20 rounded-3xl mx-auto drop-shadow-xl mb-4" />
                     <h1 className="text-3xl font-extrabold">Choose Your Store</h1>
                     <p className="text-white/80 mt-1 font-medium">Select the location you'd like to order from</p>
                 </div>
                 <div className="space-y-3">
                     {stores.map((store, i) => (
                         <button key={store.id} onClick={() => choose(store)} style={{ '--d': `${150 + i * 90}ms` }}
-                            className={`anim-fade-up w-full bg-white rounded-2xl p-4 flex items-center gap-4 text-left shadow-lg hover:scale-[1.02] active:scale-[0.99] transition ${selectedStore?.id === store.id ? 'ring-4 ring-brand-cream' : ''}`}>
-                            <span className="w-12 h-12 rounded-2xl bg-brand-50 flex items-center justify-center shrink-0">
+                            className={`anim-fade-up w-full bg-white rounded-2xl p-4 flex items-center gap-4 text-left border-[3px] border-pv-ink shadow-brut hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px] transition-all ${selectedStore?.id === store.id ? 'ring-4 ring-brand-cream' : ''}`}>
+                            <span className="w-12 h-12 rounded-2xl icon-brut shrink-0">
                                 <MapPin className="text-brand" size={24} />
                             </span>
                             <span className="flex-1 min-w-0">

@@ -83,7 +83,7 @@ export default function Orders() {
             <div className="flex gap-2 mb-6">
                 {TABS.map(t => (
                     <button key={t.key} onClick={() => setTab(t.key)}
-                        className={`px-4 py-2 rounded-full text-sm font-bold ${tab === t.key ? 'bg-brand text-white' : 'bg-white border border-slate-200 text-slate-600'}`}>
+                        className={`chip-brut px-4 py-2 text-sm ${tab === t.key ? 'chip-on' : ''}`}>
                         {t.label}
                     </button>
                 ))}
@@ -125,9 +125,9 @@ export default function Orders() {
                                     <span className="font-semibold">{active ? 'Delivering to:' : order.status === 'cancelled' ? 'Order address:' : 'Delivered to:'}</span> {order.delivery_address || 'Not available'}
                                 </p>
                                 <div className="flex gap-2 mt-4">
-                                    <Link to={`/orders/${order.id}`} className="flex-1 text-center border-2 border-slate-200 rounded-xl py-2 text-sm font-extrabold text-ink hover:bg-slate-50">View Details</Link>
+                                    <Link to={`/orders/${order.id}`} className="btn-white flex-1 py-2 text-xs rounded-xl shadow-brut-sm">View Details</Link>
                                     {order.status === 'delivered' && (
-                                        <button onClick={() => reorder(order)} className="flex-1 bg-brand text-white rounded-xl py-2 text-sm font-extrabold hover:bg-brand-cta">Reorder</button>
+                                        <button onClick={() => reorder(order)} className="btn-yellow flex-1 py-2 text-xs rounded-xl shadow-brut-sm">Reorder</button>
                                     )}
                                 </div>
                             </Card>

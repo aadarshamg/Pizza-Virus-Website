@@ -70,9 +70,9 @@ export default function Profile() {
 
     return (
         <div className="max-w-2xl mx-auto space-y-4">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-green-700 text-white p-6 flex items-center gap-4">
+            <div className="relative overflow-hidden rounded-3xl bg-brand text-white p-6 border-[3px] border-pv-ink shadow-brut flex items-center gap-4">
                 <span className="absolute right-4 top-2 text-5xl opacity-30 rotate-12" aria-hidden>🍕</span>
-                <img src="/logo-192.webp" alt="" className="w-16 h-16 rounded-2xl bg-white" />
+                <img src="/logo-192.webp" alt="" className="object-contain w-16 h-16 rounded-2xl" />
                 <div className="min-w-0">
                     <h1 className="text-2xl font-extrabold truncate">{user.user_metadata?.name || 'Pizza Lover'}</h1>
                     <p className="text-white/80 text-sm truncate">{user.email}</p>
@@ -101,7 +101,7 @@ export default function Profile() {
 
             <Card>
                 <Link to={stores.length > 1 ? '/stores' : '/profile'} className="flex items-center gap-4 p-4">
-                    <span className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center"><Store size={20} className="text-brand" /></span>
+                    <span className="w-10 h-10 rounded-xl icon-brut"><Store size={20} /></span>
                     <span className="flex-1">
                         <span className="block text-xs text-slate-500 font-semibold">Delivering from</span>
                         <span className="block font-extrabold text-ink">{selectedStore?.name || 'Select a store'}</span>
@@ -113,7 +113,7 @@ export default function Profile() {
             <Card className="divide-y divide-slate-100">
                 {MENU.map(({ label, icon: Icon, to }) => (
                     <Link key={to} to={to} className="flex items-center gap-4 p-4 hover:bg-slate-50 first:rounded-t-2xl last:rounded-b-2xl">
-                        <span className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center"><Icon size={20} className="text-brand" /></span>
+                        <span className="w-10 h-10 rounded-xl icon-brut"><Icon size={20} /></span>
                         <span className="flex-1 font-bold text-ink">{label}</span>
                         <ChevronRight size={18} className="text-slate-300" />
                     </Link>

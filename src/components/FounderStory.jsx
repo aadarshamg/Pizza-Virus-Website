@@ -31,7 +31,7 @@ export default function FounderStory({ compact = false }) {
                     <div className="reveal-left relative mx-auto w-full max-w-sm">
                         {/* Offset colour block + frame behind the portrait */}
                         <div className="absolute inset-0 translate-x-5 translate-y-5 rounded-[2rem] bg-gradient-to-br from-brand to-green-700" aria-hidden />
-                        <div className="relative rounded-[2rem] overflow-hidden aspect-[4/5] bg-orange-100 shadow-2xl ring-8 ring-white">
+                        <div className="relative rounded-[2rem] overflow-hidden aspect-[4/5] bg-orange-100 border-[3px] border-pv-ink shadow-brut-lg">
                             <img src={f.founder_image_url} alt={name ? `${name}, ${f.founder_title || 'founder'}` : 'Founder of Pizza Virus'}
                                 loading="lazy" className="w-full h-full object-cover hover:scale-105 transition duration-700" />
                         </div>

@@ -93,7 +93,7 @@ function ActiveOrderStrip({ order, stores }) {
     const slug = stores.find(s => s.id === order.store_id)?.slug;
     return (
         <Link to={`/orders/${order.id}`}
-            className="fixed md:sticky bottom-20 md:bottom-4 inset-x-4 md:inset-x-auto z-30 md:mt-8 block bg-white rounded-2xl shadow-2xl border-2 border-brand-light p-4 hover:bg-brand-50 transition">
+            className="fixed md:sticky bottom-20 md:bottom-4 inset-x-4 md:inset-x-auto z-30 md:mt-8 block bg-white rounded-2xl border-[3px] border-pv-ink shadow-brut p-4 hover:bg-brand-50 transition">
             <div className="flex items-center gap-3">
                 <span className="relative flex w-3 h-3 shrink-0">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-light opacity-75" />
@@ -170,7 +170,7 @@ export default function Home() {
     return (
         <div className="space-y-10">
             {/* Hero */}
-            <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-green-700 text-white p-6 md:p-10">
+            <section className="relative overflow-hidden rounded-3xl bg-brand text-white p-6 md:p-10 border-[3px] border-pv-ink shadow-brut-lg">
                 <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-white/10" />
                 <div className="absolute right-10 -bottom-20 w-48 h-48 rounded-full bg-white/10" />
                 <div className="relative md:flex items-center justify-between gap-8">
@@ -181,8 +181,8 @@ export default function Home() {
                         <h1 className="text-3xl md:text-5xl font-extrabold mt-3 leading-tight">Hunger is a<br />Deadly Virus.</h1>
                         <p className="text-white/85 mt-3 max-w-md font-medium">Fresh, hot pizzas from {selectedStore?.name}, delivered to your door.</p>
                         <div className="flex flex-wrap gap-3 mt-6">
-                            <Link to="/menu" className="bg-white text-brand font-extrabold px-6 py-3 rounded-2xl hover:bg-brand-cream">Order Now</Link>
-                            <Link to="/offers" className="bg-white/15 font-extrabold px-6 py-3 rounded-2xl hover:bg-white/25">View Offers</Link>
+                            <Link to="/menu" className="btn-yellow px-6 py-3">Order Now</Link>
+                            <Link to="/offers" className="btn-white px-6 py-3">View Offers</Link>
                         </div>
                     </div>
                     {open && (
@@ -288,7 +288,7 @@ function SectionHeading({ title, link }) {
 
 function QuickCard({ to, className, icon: Icon, title, sub }) {
     return (
-        <Link to={to} className={`${className} text-white rounded-2xl p-4 md:p-5 hover:opacity-95 hover:-translate-y-0.5 transition`}>
+        <Link to={to} className={`${className} text-white rounded-2xl p-4 md:p-5 border-[3px] border-pv-ink shadow-brut hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px] transition-all`}>
             <Icon size={26} />
             <p className="font-extrabold mt-3 text-sm md:text-base">{title}</p>
             <p className="text-xs text-white/80 font-semibold">{sub}</p>

@@ -49,13 +49,13 @@ export default function Addresses() {
                 {addresses.map((a, i) => (
                     <Card key={a.id} className={`p-4 flex gap-4 items-start cursor-pointer transition ${i === 0 ? 'ring-2 ring-brand-light' : 'hover:border-slate-300'}`}>
                         <button onClick={() => select(a.id)} className="flex gap-4 items-start flex-1 text-left">
-                            <span className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${i === 0 ? 'bg-brand text-white' : 'bg-brand-50 text-brand'}`}>
+                            <span className={`w-11 h-11 rounded-xl icon-brut shrink-0 ${i === 0 ? '' : 'bg-white'}`}>
                                 <HomeIcon size={20} />
                             </span>
                             <span className="flex-1 min-w-0">
                                 <span className="flex items-center gap-2">
                                     <span className="font-extrabold text-ink">{a.title}</span>
-                                    {i === 0 && <span className="text-[10px] font-extrabold bg-green-100 text-green-700 rounded-full px-2 py-0.5">ACTIVE</span>}
+                                    {i === 0 && <span className="text-[0.625rem] font-extrabold bg-green-100 text-green-700 rounded-full px-2 py-0.5">ACTIVE</span>}
                                 </span>
                                 <span className="block text-sm text-slate-500 mt-0.5">{a.address}</span>
                                 {a.phone && <span className="block text-xs text-slate-400 mt-0.5">{a.phone}</span>}
@@ -79,7 +79,7 @@ export default function Addresses() {
                 />
             ) : (
                 <button onClick={() => setShowForm(true)}
-                    className="w-full mt-4 border-2 border-dashed border-brand-light rounded-2xl py-4 font-extrabold text-brand flex items-center justify-center gap-2 hover:bg-brand-50">
+                    className="btn-white w-full mt-4 py-4">
                     <Plus size={20} /> Add New Address
                 </button>
             )}
@@ -145,7 +145,7 @@ function AddressForm({ onSave, onCancel }) {
                 <label className="block">
                     <span className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wide">Address</span>
                     <textarea rows={3} value={address} onChange={e => setAddress(e.target.value)} placeholder="Street, Apt, Landmark, City..."
-                        className="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-brand-light focus:bg-white resize-none" />
+                        className="field-brut w-full px-4 py-3 text-sm resize-none" />
                 </label>
 
                 <div>

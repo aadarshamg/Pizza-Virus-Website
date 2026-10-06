@@ -48,10 +48,10 @@ export default function OrderDetail() {
                             return (
                                 <div key={s.key} className="flex items-start flex-1 last:flex-none">
                                     <div className="flex flex-col items-center w-16">
-                                        <span className={`w-10 h-10 rounded-full flex items-center justify-center ${done ? 'bg-brand text-white' : 'bg-slate-100 text-slate-300'} ${i === idx ? 'ring-4 ring-brand-100' : ''}`}>
+                                        <span className={`w-10 h-10 rounded-full flex items-center justify-center border-2 border-pv-ink ${done ? 'bg-pv-yellow text-pv-ink' : 'bg-white text-pv-ink/30'} ${i === idx ? 'ring-4 ring-pv-yellow/50' : ''}`}>
                                             <Icon size={18} />
                                         </span>
-                                        <span className={`text-[11px] font-bold mt-1.5 text-center ${done ? 'text-ink' : 'text-slate-400'}`}>{s.label}</span>
+                                        <span className={`text-[0.6875rem] font-bold mt-1.5 text-center ${done ? 'text-ink' : 'text-slate-400'}`}>{s.label}</span>
                                     </div>
                                     {i < TRACK_STAGES.length - 1 && <span className={`h-1 flex-1 mt-5 rounded ${i < idx ? 'bg-brand' : 'bg-slate-200'}`} />}
                                 </div>

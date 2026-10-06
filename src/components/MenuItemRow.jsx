@@ -9,7 +9,7 @@ export default function MenuItemRow({ product, delay = 0 }) {
     const customisable = getSizes(product).length > 1;
     return (
         <Link to={`/product/${product.id}`} style={{ '--rd': `${delay}ms` }}
-            className="reveal group flex gap-4 sm:gap-6 py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-2xl hover:bg-orange-50/60 transition-colors">
+            className="reveal group flex gap-4 sm:gap-6 py-5 px-2 sm:px-3 -mx-2 sm:-mx-3 rounded-2xl hover:bg-white transition-colors">
             <div className="flex-1 min-w-0">
                 <VegMark isVeg={product.is_veg} />
                 <h3 className="font-extrabold text-ink text-base sm:text-lg leading-snug mt-1.5 group-hover:text-brand transition-colors">
@@ -27,15 +27,15 @@ export default function MenuItemRow({ product, delay = 0 }) {
             </div>
 
             <div className="relative shrink-0 w-28 sm:w-36 self-start pb-3">
-                <div className="w-28 h-28 sm:w-36 sm:h-32 rounded-2xl overflow-hidden bg-brand-cream shadow-card">
+                <div className="w-28 h-28 sm:w-36 sm:h-32 rounded-2xl overflow-hidden bg-brand-cream border-[3px] border-pv-ink">
                     <ImageOrEmoji src={product.image_url} alt={product.name} emojiSize="text-4xl"
                         className="w-full h-full group-hover:scale-110 transition duration-500 ease-out" />
                 </div>
-                <span className="absolute left-1/2 -translate-x-1/2 top-[6.25rem] sm:top-[7.25rem] bg-white text-brand border border-slate-200 shadow-lg rounded-xl px-6 py-1.5 text-sm font-extrabold tracking-wide transition group-hover:bg-brand group-hover:text-white group-hover:border-brand group-active:scale-95">
+                <span className="absolute left-1/2 -translate-x-1/2 top-[6.25rem] sm:top-[7.25rem] bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut-sm rounded-xl px-6 py-1.5 text-sm font-extrabold tracking-wide transition-all group-hover:shadow-none group-hover:translate-x-[2px] group-hover:translate-y-[2px]">
                     ADD
                 </span>
                 {customisable && (
-                    <span className="block text-center text-[10px] font-semibold text-slate-400 mt-6">Customisable</span>
+                    <span className="block text-center text-[0.625rem] font-semibold text-slate-500 mt-8">Customisable</span>
                 )}
             </div>
         </Link>

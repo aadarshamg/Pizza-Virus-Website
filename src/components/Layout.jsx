@@ -6,7 +6,9 @@ import { useCart } from '../contexts/CartContext';
 import { useStore } from '../contexts/StoreContext';
 import { getSession, setSession } from '../lib/storage';
 import WhatsAppButton from './WhatsAppButton';
+import { useStoreStatus } from '../lib/useStoreStatus';
 import Footer from './Footer';
+import { getHeroVariant, heroTone } from './heroes';
 import { FullPageSpinner } from './ui';
 
 const NAV = [
@@ -29,21 +31,36 @@ function useScrolled(offset = 40) {
     return scrolled;
 }
 
-// Highlighted announcement strip shown above the landing-page header. Collapses once the
-// visitor scrolls, and can be dismissed for the rest of the session.
+// Live store-status strip above the landing-page header (open / closing soon / closed,
+// updated in realtime from the admin's store settings). Collapses once the visitor scrolls,
+// and can be dismissed for the rest of the session.
 function AnnouncementBar({ hidden, onClose }) {
+    const { selectedStore, stores } = useStore();
+    const store = selectedStore || stores[0];
+    const { ready, open, minsToClose, opensAt, closesAt } = useStoreStatus(store?.id);
+    const closingSoon = open && minsToClose !== null && minsToClose <= 30;
+
+    const badge = !open ? { text: 'CLOSED', cls: 'bg-red-500 text-white', dot: 'bg-red-400' }
+        : closingSoon ? { text: 'CLOSING SOON', cls: 'bg-pv-yellow text-pv-ink', dot: 'bg-pv-yellow' }
+        : { text: 'OPEN NOW', cls: 'bg-lime-300 text-pv-ink', dot: 'bg-lime-300' };
+    const message = !open
+        ? `We're closed right now${opensAt ? `. Opens at ${opensAt}` : ''}.`
+        : closingSoon
+            ? `Closing in ${minsToClose} min. Place your order now!`
+            : `${store?.name || 'We'} ${store?.name ? 'is' : 'are'} taking orders${closesAt ? ` till ${closesAt}` : ''}.`;
+
     return (
-        <div className={`overflow-hidden transition-[max-height,opacity] duration-500 ${hidden ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
-            <div className="relative bg-gradient-to-r from-[#0f5f24] via-brand to-[#0f5f24] text-white">
-                <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] animate-sweep" aria-hidden />
-                <div className="relative max-w-6xl mx-auto px-10 py-2.5 flex items-center justify-center gap-2.5 text-xs sm:text-sm font-bold text-center">
+        <div className={`overflow-hidden transition-[max-height,opacity] duration-500 ${hidden || !ready ? 'max-h-0 opacity-0' : 'max-h-16 opacity-100'}`}>
+            <div className={`relative text-white ${open ? 'bg-gradient-to-r from-[#0f5f24] via-brand to-[#0f5f24]' : 'bg-pv-ink'}`}>
+                {open && <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-20deg] animate-sweep" aria-hidden />}
+                <div className="relative max-w-6xl mx-auto px-10 py-2.5 flex items-center justify-center gap-2.5 text-xs sm:text-sm font-bold text-center" role="status" aria-live="polite">
                     <span className="relative flex shrink-0">
-                        <span className="absolute inset-0 rounded-full bg-lime-300 animate-ping opacity-50" />
-                        <span className="relative bg-lime-300 text-[#0f3d1a] rounded-full px-2 py-0.5 text-[11px] font-extrabold tracking-wide">NEW</span>
+                        {open && <span className={`absolute inset-0 rounded-full animate-ping opacity-50 ${badge.dot}`} />}
+                        <span className={`relative rounded-full px-2 py-0.5 text-[0.6875rem] font-extrabold tracking-wide ${badge.cls}`}>{badge.text}</span>
                     </span>
-                    <span>We're now taking orders on the web!</span>
-                    <Link to="/order" className="hidden sm:inline-flex items-center gap-1 underline decoration-lime-300 decoration-2 underline-offset-4 hover:text-lime-200">
-                        Order now <ArrowRight size={14} />
+                    <span>{message}</span>
+                    <Link to={open ? '/order' : '/menu'} className="hidden sm:inline-flex items-center gap-1 underline decoration-lime-300 decoration-2 underline-offset-4 hover:text-lime-200">
+                        {open ? 'Order now' : 'See the menu'} <ArrowRight size={14} />
                     </Link>
                 </div>
                 <button onClick={onClose} aria-label="Dismiss announcement"
@@ -55,7 +72,7 @@ function AnnouncementBar({ hidden, onClose }) {
     );
 }
 
-function Header({ overlay }) {
+function Header({ overlay, tone = 'light' }) {
     const { user } = useAuth();
     const { cartCount } = useCart();
     const { selectedStore, stores } = useStore();
@@ -63,10 +80,10 @@ function Header({ overlay }) {
     const [barClosed, setBarClosed] = useState(() => getSession('announce_closed') === '1');
     // On the landing page the header floats transparently (dark text) over the light hero
     // and turns solid green once the visitor scrolls.
-    const light = overlay && !scrolled;
+    const light = overlay && !scrolled && tone === 'light';
     const position = overlay
-        ? `fixed inset-x-0 top-0 transition-colors duration-300 ${scrolled ? 'bg-brand shadow-lg' : 'bg-transparent'}`
-        : 'sticky top-0 bg-brand shadow-md';
+        ? `fixed inset-x-0 top-0 transition-colors duration-300 ${scrolled ? 'bg-brand border-b-[3px] border-pv-ink' : 'bg-transparent'}`
+        : 'sticky top-0 bg-brand border-b-[3px] border-pv-ink';
     const subtle = light ? 'hover:bg-ink/5' : 'hover:bg-white/10';
 
     return (
@@ -77,10 +94,10 @@ function Header({ overlay }) {
             )}
             <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-4">
                 <Link to="/" className="flex items-center gap-2.5 shrink-0">
-                    <img src="/logo-192.webp" alt="" className="w-10 h-10 rounded-xl object-cover bg-white" />
+                    <img src="/logo-192.webp" alt="" className="object-contain w-10 h-10 rounded-xl" />
                     <span className="leading-tight">
                         <span className="block font-extrabold tracking-wider text-lg">PIZZA VIRUS</span>
-                        <span className={`hidden sm:block text-[11px] font-medium ${light ? 'text-slate-500' : 'text-white/75'}`}>Hunger is a Deadly Virus</span>
+                        <span className={`hidden sm:block text-[0.6875rem] font-medium ${light ? 'text-slate-500' : 'text-white/75'}`}>Hunger is a Deadly Virus</span>
                     </span>
                 </Link>
 
@@ -97,24 +114,24 @@ function Header({ overlay }) {
 
                 {selectedStore && (
                     <Link to={stores.length > 1 ? '/stores' : '/order'} title="Delivering from"
-                        className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold max-w-[160px] ${light ? 'bg-white border border-slate-200 hover:bg-slate-50' : 'bg-white/15 hover:bg-white/25'}`}>
+                        className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold max-w-[10rem] ${light ? 'bg-white border border-slate-200 hover:bg-slate-50' : 'bg-white/15 hover:bg-white/25'}`}>
                         <MapPin size={14} className={`shrink-0 ${light ? 'text-brand' : ''}`} />
                         <span className="truncate">{selectedStore.name}</span>
                         {stores.length > 1 && <ChevronDown size={14} className="shrink-0" />}
                     </Link>
                 )}
 
-                <Link to="/cart" className={`relative hidden md:flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-extrabold ${light ? 'bg-brand text-white hover:bg-brand-cta' : 'bg-white text-brand hover:bg-brand-cream'}`}>
+                <Link to="/cart" className={`relative hidden md:flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-extrabold bg-pv-yellow text-pv-ink border-2 border-pv-ink shadow-brut-sm hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all`}>
                     <ShoppingCart size={18} />
                     Cart
                     {cartCount > 0 && (
-                        <span key={cartCount} className="anim-bump absolute -top-2 -right-2 bg-red-500 text-white text-[11px] min-w-5 h-5 px-1 rounded-full flex items-center justify-center">{cartCount}</span>
+                        <span key={cartCount} className="anim-bump absolute -top-2 -right-2 bg-red-500 text-white text-[0.6875rem] min-w-5 h-5 px-1 rounded-full flex items-center justify-center">{cartCount}</span>
                     )}
                 </Link>
 
                 <Link to={user ? '/profile' : '/login'} className={`hidden md:flex items-center gap-2 ${subtle} rounded-xl px-3 py-2 text-sm font-bold`}>
                     <User size={18} />
-                    <span className="max-w-[110px] truncate">{user ? (user.user_metadata?.name?.split(' ')[0] || 'Account') : 'Sign In'}</span>
+                    <span className="max-w-[7rem] truncate">{user ? (user.user_metadata?.name?.split(' ')[0] || 'Account') : 'Sign In'}</span>
                 </Link>
             </div>
         </header>
@@ -134,11 +151,11 @@ function BottomNav() {
             <div className="grid grid-cols-4">
                 {items.map(({ to, label, icon: Icon, end, badge }) => (
                     <NavLink key={to} to={to} end={end}
-                        className={({ isActive }) => `flex flex-col items-center gap-0.5 py-2.5 text-[11px] font-bold ${isActive ? 'text-brand-light' : 'text-slate-400'}`}>
+                        className={({ isActive }) => `flex flex-col items-center gap-0.5 py-2.5 text-[0.6875rem] font-bold ${isActive ? 'text-brand-light' : 'text-slate-400'}`}>
                         <span className="relative">
                             <Icon size={22} />
                             {badge > 0 && (
-                                <span key={badge} className="anim-bump absolute -top-1.5 -right-2.5 bg-red-500 text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center">{badge}</span>
+                                <span key={badge} className="anim-bump absolute -top-1.5 -right-2.5 bg-red-500 text-white text-[0.625rem] min-w-4 h-4 px-1 rounded-full flex items-center justify-center">{badge}</span>
                             )}
                         </span>
                         {label}
@@ -178,12 +195,12 @@ function ScrollProgress() {
 }
 
 export default function Layout() {
-    const { pathname } = useLocation();
+    const { pathname, search } = useLocation();
     const isLanding = pathname === '/';
     return (
-        <div className="min-h-screen flex flex-col bg-slate-50">
+        <div className="min-h-screen flex flex-col bg-pv-cream">
             {isLanding && <ScrollProgress />}
-            <Header overlay={isLanding} />
+            <Header overlay={isLanding} tone={heroTone(getHeroVariant(search))} />
             {/* The landing page is full-bleed and manages its own section spacing. */}
             <main className={isLanding ? 'flex-1' : 'flex-1 w-full max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-10'}>
                 {/* Keyed on the path so every page change replays the enter animation */}
@@ -196,7 +213,7 @@ export default function Layout() {
             {/* Phones: the home page shows only an "Order Now" bar; the full nav lives on the other pages */}
             {isLanding ? (
                 <div className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-200 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
-                    <Link to="/order" className="btn-shine flex items-center justify-center gap-2 w-full bg-brand active:scale-[0.98] text-white font-extrabold text-base py-3.5 rounded-2xl shadow-lg shadow-green-600/30 transition">
+                    <Link to="/order" className="flex items-center justify-center gap-2 w-full bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut active:shadow-none active:translate-x-[5px] active:translate-y-[5px] font-extrabold uppercase tracking-wide text-base py-3.5 rounded-2xl transition-all">
                         Order Now <ArrowRight size={18} />
                     </Link>
                 </div>

@@ -50,7 +50,7 @@ function GoogleBadge() {
 
 function PayBadge({ children, light = false }) {
     return (
-        <span className={`inline-flex items-center gap-2 h-9 px-3 rounded-lg text-[11px] font-extrabold tracking-wide ${light ? 'bg-white text-ink' : 'border border-white/15 text-slate-200'}`}>
+        <span className={`inline-flex items-center gap-2 h-9 px-3 rounded-lg text-[0.6875rem] font-extrabold tracking-wide ${light ? 'bg-white text-ink' : 'border border-white/15 text-slate-200'}`}>
             {children}
         </span>
     );
@@ -64,7 +64,7 @@ export default function Footer({ flush }) {
             <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-8 grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1.1fr] text-sm">
                 <div>
                     <Link to="/" className="inline-flex items-center gap-3">
-                        <img src="/logo-192.webp" alt="" className="w-12 h-12 rounded-2xl" />
+                        <img src="/logo-192.webp" alt="" className="object-contain w-12 h-12 rounded-2xl" />
                         <span>
                             <span className="block font-extrabold text-white tracking-wider text-lg">PIZZA VIRUS</span>
                             <span className="block text-xs text-slate-500">Hunger is a Deadly Virus</span>
@@ -131,7 +131,7 @@ export default function Footer({ flush }) {
             <div className="relative border-t border-white/10 bg-[#0b0f0c]">
                 <div className="max-w-6xl mx-auto px-4 pt-6 pb-4 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
                     <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500 mr-1">We accept</span>
+                        <span className="text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-slate-500 mr-1">We accept</span>
                         <PayBadge light><span className="font-black italic text-[#1a1f71] text-sm tracking-tight">VISA</span></PayBadge>
                         <PayBadge light>
                             <span className="relative flex w-7 h-4" aria-label="Mastercard">

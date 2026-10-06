@@ -7,8 +7,14 @@
         -webkit-tap-highlight-color: transparent;
         scroll-behavior: smooth;
     }
+    /* Large / 4K screens: scale the whole layout (Tailwind sizes are rem-based) so it
+       doesn't look tiny. 16px at 1920 -> ~21px at 2560 -> 32px at 3840 (4K at 100%). */
+    @media (min-width: 1921px) {
+        html { font-size: clamp(16px, 0.8333vw, 32px); }
+    }
     body {
-        @apply bg-slate-50 text-ink font-sans antialiased;
+        @apply text-ink font-sans antialiased;
+        background-color: #FFF8EE; /* pv-cream */
     }
 }
 
@@ -162,4 +168,26 @@
         animation: none !important;
     }
     .parallax { transform: none !important; }
+}
+
+/* Icons (lucide) are sized in px attributes, so step them up with the rem scaling above. */
+@media (min-width: 2240px) { svg.lucide { zoom: 1.25; } }
+@media (min-width: 2880px) { svg.lucide { zoom: 1.6; } }
+@media (min-width: 3520px) { svg.lucide { zoom: 1.9; } }
+
+/* ── Bold theme building blocks (match the hero) ── */
+@layer components {
+    .btn-brut {
+        @apply inline-flex items-center justify-center gap-2 rounded-2xl border-[3px] border-pv-ink font-extrabold uppercase tracking-wide
+               shadow-brut transition-all hover:shadow-brut-sm hover:translate-x-[2px] hover:translate-y-[2px]
+               active:shadow-none active:translate-x-[5px] active:translate-y-[5px] disabled:opacity-50;
+    }
+    .btn-yellow { @apply btn-brut bg-pv-yellow text-pv-ink; }
+    .btn-green  { @apply btn-brut bg-brand text-white; }
+    .btn-white  { @apply btn-brut bg-white text-pv-ink; }
+    .chip-brut  { @apply rounded-full border-2 border-pv-ink bg-white text-pv-ink font-bold transition-all hover:bg-pv-cream; }
+    .chip-on    { @apply bg-pv-yellow shadow-brut-sm; }
+    .field-brut { @apply bg-white border-[3px] border-pv-ink rounded-2xl outline-none transition focus:shadow-brut-sm; }
+    .icon-brut  { @apply flex items-center justify-center bg-pv-yellow text-pv-ink border-2 border-pv-ink; }
+    .tile-brut  { @apply bg-white rounded-3xl border-[3px] border-pv-ink shadow-brut; }
 }

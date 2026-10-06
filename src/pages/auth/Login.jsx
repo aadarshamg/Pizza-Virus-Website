@@ -93,7 +93,7 @@ export default function Login() {
             </form>
             <div className="flex items-center gap-3 my-5 text-xs font-bold text-slate-400"><span className="h-px flex-1 bg-slate-200" />OR<span className="h-px flex-1 bg-slate-200" /></div>
             <GoogleButton next={next} />
-            <p className="text-[11px] text-slate-400 text-center mt-5">
+            <p className="text-[0.6875rem] text-slate-400 text-center mt-5">
                 By continuing you agree to our <Link to="/legal/terms" className="underline">Terms</Link> and <Link to="/legal/privacy" className="underline">Privacy Policy</Link>.
             </p>
         </AuthShell>

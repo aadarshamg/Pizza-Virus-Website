@@ -34,7 +34,7 @@ export default function OrderSuccess() {
     return (
         <div className="max-w-lg mx-auto">
             <div className="flex justify-center my-6">
-                <div className="w-24 h-24 rounded-full bg-brand flex items-center justify-center shadow-xl shadow-green-600/30">
+                <div className="w-24 h-24 rounded-full bg-pv-yellow text-pv-ink border-[3px] border-pv-ink shadow-brut flex items-center justify-center [&_svg]:text-pv-ink">
                     <Check size={48} strokeWidth={4} className="text-white" />
                 </div>
             </div>

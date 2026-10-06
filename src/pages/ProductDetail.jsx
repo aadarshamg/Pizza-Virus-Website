@@ -141,7 +141,7 @@ export default function ProductDetail() {
             <div className="grid md:grid-cols-2 gap-8 items-start">
                 {/* Image */}
                 <div className="md:sticky md:top-24">
-                    <div className="anim-pop relative rounded-3xl overflow-hidden aspect-square bg-brand-cream">
+                    <div className="anim-pop relative rounded-3xl overflow-hidden aspect-square bg-brand-cream border-[3px] border-pv-ink shadow-brut-lg">
                         <ImageOrEmoji src={product.image_url} alt={product.name} className="w-full h-full" emojiSize="text-8xl" />
                         <span className="absolute bottom-4 right-4 bg-white rounded-lg p-1.5 shadow"><VegMark isVeg={product.is_veg} /></span>
                     </div>
@@ -150,7 +150,7 @@ export default function ProductDetail() {
                 {/* Options */}
                 <div>
                     <p className="text-sm font-bold text-slate-500">{product.category?.name}</p>
-                    <h1 className="text-3xl font-extrabold text-ink mt-1">{product.name}</h1>
+                    <h1 className="font-display text-4xl font-extrabold text-pv-ink uppercase leading-none mt-1">{product.name}</h1>
                     {sizes.length === 1 && <p className="text-2xl font-extrabold text-brand mt-1">₹{sizes[0].price}</p>}
                     <p className="text-slate-600 mt-3 leading-relaxed">{product.description || 'Delicious freshly baked pizza with extra cheese and Italian herbs.'}</p>
 
@@ -159,7 +159,7 @@ export default function ProductDetail() {
                             <div className={`grid gap-3 ${sizes.length > 2 ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-2'}`}>
                                 {sizes.map(s => (
                                     <button key={s.key} onClick={() => setSizeKey(s.key)}
-                                        className={`rounded-2xl py-4 px-2 text-center transition ${s.key === sizeKey ? 'bg-brand-light text-white shadow-lg shadow-green-500/30' : 'bg-white border border-slate-200 text-slate-700 hover:border-brand-light'}`}>
+                                        className={`rounded-2xl py-4 px-2 text-center border-[3px] border-pv-ink transition-all ${s.key === sizeKey ? "bg-pv-yellow text-pv-ink shadow-brut-sm" : "bg-white text-pv-ink hover:bg-pv-cream"}`}>
                                         <span className="block font-extrabold text-sm">{s.label}</span>
                                         <span className="block font-extrabold mt-1.5">₹{s.price}</span>
                                     </button>
@@ -173,7 +173,7 @@ export default function ProductDetail() {
                             <div className="flex flex-wrap gap-2.5">
                                 {crusts.map(c => (
                                     <button key={c.id} onClick={() => setCrust(c)}
-                                        className={`px-4 py-3 rounded-2xl text-sm font-bold border transition ${crust?.id === c.id ? 'bg-brand-cream border-brand-light text-brand' : 'bg-white border-slate-200 text-slate-700 hover:border-brand-light'}`}>
+                                        className={`chip-brut px-4 py-3 text-sm ${crust?.id === c.id ? "chip-on" : ""}`}>
                                         {c.name}{c.price > 0 ? ` (+₹${c.price})` : ''}
                                     </button>
                                 ))}
@@ -217,10 +217,10 @@ export default function ProductDetail() {
                         <Section title="Extra Toppings">
                             {[['Veg', vegToppings, true], ['Non-Veg', nonVegToppings, false]].map(([label, list, veg]) => list.length > 0 && (
                                 <div key={label} className="mb-4">
-                                    <div className="flex items-center gap-2 bg-slate-100 rounded-xl px-3 py-2 mb-2">
+                                    <div className="flex items-center gap-2 bg-white border-2 border-pv-ink rounded-xl px-3 py-2 mb-2">
                                         <span className={`w-2.5 h-2.5 rounded-full ${veg ? 'bg-brand' : 'bg-red-500'}`} />
                                         <span className={`text-xs font-extrabold uppercase tracking-wider flex-1 ${veg ? 'text-green-700' : 'text-red-700'}`}>{label}</span>
-                                        <span className="text-[11px] font-bold text-slate-400">{list.length} options</span>
+                                        <span className="text-[0.6875rem] font-bold text-slate-400">{list.length} options</span>
                                     </div>
                                     {list.map(t => (
                                         <OptionRow key={t.id} active={!!selToppings.find(x => x.id === t.id)}
@@ -272,11 +272,11 @@ export default function ProductDetail() {
                     <Section title="Special Instructions">
                         <textarea value={instructions} onChange={e => setInstructions(e.target.value)} rows={3} maxLength={300}
                             placeholder="Any special requests? (e.g. extra sauce, less spicy, no onion...)"
-                            className="w-full bg-white border-2 border-slate-200 rounded-2xl px-4 py-3 text-sm outline-none focus:border-brand-light resize-none" />
+                            className="field-brut w-full px-4 py-3 text-sm resize-none" />
                     </Section>
 
                     {/* Add to cart - fixed bar on mobile, inline on desktop */}
-                    <div className="fixed md:static bottom-[60px] md:bottom-auto inset-x-0 z-30 bg-white md:bg-transparent border-t md:border-0 border-slate-200 px-4 md:px-0 py-3 md:py-0 md:mt-8 flex items-center gap-4">
+                    <div className="fixed md:static bottom-[3.75rem] md:bottom-auto inset-x-0 z-30 bg-pv-cream md:bg-transparent border-t-[3px] md:border-0 border-pv-ink px-4 md:px-0 py-3 md:py-0 md:mt-8 flex items-center gap-4">
                         <QtyStepper value={qty} onDec={() => setQty(q => Math.max(1, q - 1))} onInc={() => setQty(q => q + 1)} />
                         <Button className="flex-1 py-4 text-base" onClick={handleAdd} disabled={!size}>
                             Add to Cart • ₹{totalPrice}
@@ -291,33 +291,33 @@ export default function ProductDetail() {
 function Section({ title, children }) {
     return (
         <section className="mt-8">
-            <h2 className="text-lg font-extrabold text-ink mb-3">{title}</h2>
+            <h2 className="font-display text-xl font-extrabold text-pv-ink uppercase mb-3">{title}</h2>
             <div className="space-y-2">{children}</div>
         </section>
     );
 }
 
 const TONES = {
-    green: { row: 'bg-brand-50 border-brand-light', text: 'text-green-800', mark: 'bg-brand-light border-brand-light' },
-    amber: { row: 'bg-amber-50 border-amber-500', text: 'text-amber-800', mark: 'bg-amber-500 border-amber-500' },
-    blue: { row: 'bg-blue-50 border-blue-500', text: 'text-blue-700', mark: 'bg-blue-500 border-blue-500' },
-    teal: { row: 'bg-teal-50 border-teal-700', text: 'text-teal-700', mark: 'bg-teal-700 border-teal-700' },
+    green: { row: 'bg-pv-yellow border-pv-ink shadow-brut-sm', text: 'text-pv-ink', mark: 'bg-pv-ink border-pv-ink' },
+    amber: { row: 'bg-pv-yellow border-pv-ink shadow-brut-sm', text: 'text-pv-ink', mark: 'bg-pv-ink border-pv-ink' },
+    blue: { row: 'bg-pv-yellow border-pv-ink shadow-brut-sm', text: 'text-pv-ink', mark: 'bg-pv-ink border-pv-ink' },
+    teal: { row: 'bg-pv-yellow border-pv-ink shadow-brut-sm', text: 'text-pv-ink', mark: 'bg-pv-ink border-pv-ink' },
 };
 
 function OptionRow({ active, onClick, name, price, leading, radio = false, tone = 'green' }) {
     const t = TONES[tone];
     return (
         <button type="button" onClick={onClick} role={radio ? 'radio' : 'checkbox'} aria-checked={active}
-            className={`w-full flex items-center gap-3 rounded-2xl px-4 py-3.5 border-2 text-left transition ${active ? t.row : 'bg-white border-transparent hover:border-slate-200'}`}>
+            className={`w-full flex items-center gap-3 rounded-2xl px-4 py-3.5 border-2 text-left transition-all ${active ? t.row : 'bg-white border-pv-ink/25 hover:border-pv-ink'}`}>
             {leading}
             <span className={`flex-1 text-sm font-bold ${active ? t.text : 'text-slate-700'}`}>{name}</span>
             <span className={`text-sm font-extrabold ${active ? t.text : 'text-slate-400'}`}>{price}</span>
             {radio ? (
-                <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${active ? t.mark.split(' ')[1] : 'border-slate-300'}`}>
+                <span className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${active ? 'border-pv-ink' : 'border-pv-ink/40'}`}>
                     {active && <span className={`w-3 h-3 rounded-full ${t.mark.split(' ')[0]}`} />}
                 </span>
             ) : (
-                <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 ${active ? t.mark : 'border-slate-300'}`}>
+                <span className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 ${active ? 'bg-pv-ink border-pv-ink' : 'border-pv-ink/40'}`}>
                     {active && <Check size={14} strokeWidth={4} className="text-white" />}
                 </span>
             )}
