@@ -94,11 +94,17 @@ export default function Landing() {
 
     useEffect(() => {
         if (!store?.id) return;
-        supabase.from('products').select('*, category:categories(name)').eq('store_id', store.id).eq('is_available', true)
-            .order('is_featured', { ascending: false }).order('created_at', { ascending: false })
-            .then(({ data }) => setProducts(data || []));
-        supabase.from('categories').select('*').eq('store_id', store.id).order('sort_order', { ascending: true })
-            .then(({ data }) => setCategories(data || []));
+        Promise.all([
+            supabase.from('products').select('*, category:categories(name)').eq('store_id', store.id).eq('is_available', true)
+                .order('is_featured', { ascending: false }).order('created_at', { ascending: false }),
+            supabase.from('categories').select('*').eq('store_id', store.id).order('sort_order', { ascending: true }),
+        ]).then(([prodRes, catRes]) => {
+            // Categories the admin switched off are hidden, along with their products.
+            const allCats = catRes.data || [];
+            const hidden = new Set(allCats.filter(c => c.is_active === false).map(c => c.id));
+            setCategories(allCats.filter(c => c.is_active !== false));
+            setProducts((prodRes.data || []).filter(p => !hidden.has(p.category_id)));
+        });
         supabase.from('store_settings').select('key, value').eq('store_id', store.id)
             .in('key', ['delivery_time_minutes', 'opening_time', 'closing_time'])
             .then(({ data }) => {

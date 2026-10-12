@@ -157,7 +157,16 @@ export default function Home() {
                     const { data } = await supabase.from('products').select(productSelect).eq('store_id', storeId).eq('is_available', true).order('created_at', { ascending: false }).limit(8);
                     popular = data || [];
                 }
-                setData({ categories: catRes.data || [], featured: featRes.data || [], banners: bannerRes.data || [], popular });
+                // Categories the admin switched off are hidden, along with their products.
+                const allCats = catRes.data || [];
+                const hidden = new Set(allCats.filter(c => c.is_active === false).map(c => c.id));
+                const shown = (list) => list.filter(p => !hidden.has(p.category_id));
+                setData({
+                    categories: allCats.filter(c => c.is_active !== false),
+                    featured: shown(featRes.data || []),
+                    banners: bannerRes.data || [],
+                    popular: shown(popular),
+                });
             } finally {
                 setLoading(false);
             }
